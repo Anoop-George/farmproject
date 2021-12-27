@@ -3,23 +3,39 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from PIL import Image
+from django.db.models import IntegerField, Model
+from django.core.validators import MaxValueValidator, MinValueValidator
+
+
 
 class Post(models.Model):
     title = models.CharField(max_length=300)
-    mobile= models.CharField(max_length=12) #update this to number
-    price=models.CharField(max_length=12) #update this to number
-    catagory=models.CharField(max_length=22)
+    mobile= models.IntegerField(
+        validators=[
+            MaxValueValidator(99999999999),
+            MinValueValidator(999999)
+        ]) #update this to number
+    price=models.IntegerField(default=1,
+        validators=[
+            MaxValueValidator(99999999999),
+            MinValueValidator(1)
+        ]) #update this to number
+    catagory=models.CharField(max_length=100)
     buyorsell=models.CharField(max_length=3)
-    content = models.CharField(max_length=2200)
-    pincode= models.CharField(max_length=6,blank=True,null=True)#update this to number
-    district=models.CharField(max_length=225)
-    state=models.CharField(max_length=225)
+    content = models.CharField(max_length=3200)
+    pincode= models.IntegerField(null=True,blank=True,
+        validators=[
+            MaxValueValidator(999999),
+            MinValueValidator(100000)
+        ])
+    district=models.CharField(max_length=225,null=True,blank=True)
+    state=models.CharField(max_length=225,null=True,blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    image1 = models.ImageField(default='default.jpg', upload_to='post_pics')
-    image2 = models.ImageField(default='default.jpg', upload_to='post_pics')
-    image3 = models.ImageField(default='default.jpg', upload_to='post_pics')
-    image4 = models.ImageField(default='default.jpg', upload_to='post_pics')
+    image1 = models.ImageField(default='default.jpg', upload_to='post_pics',null=True,blank=True)
+    image2 = models.ImageField(default='default.jpg', upload_to='post_pics',null=True,blank=True)
+    image3 = models.ImageField(default='default.jpg', upload_to='post_pics',null=True,blank=True)
+    image4 = models.ImageField(default='default.jpg', upload_to='post_pics',null=True,blank=True)
 
     def save(self,*args, **kwargs):
         super().save(*args, **kwargs)

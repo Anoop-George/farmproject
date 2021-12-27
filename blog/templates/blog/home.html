@@ -38,11 +38,11 @@
           <option value="3">Three</option>
         </select>
 
-        <input style='max-width:150px' type="number" class="form-control  form-control-sm m-1" placeholder='PIN code'/>
+        <input name='pin' style='max-width:150px' type="number" class="form-control  form-control-sm m-1" placeholder='PIN code'/>
 
-        <input type="text" class="form-control form-control-sm m-1" placeholder='Enter further details' />
+        <input name='searchdata' type="text" class="form-control form-control-sm m-1" placeholder='Enter further details' />
         
-        <input class='m-1 btn-xs btn-outline-info ' type="submit" value="Search">
+        <input name='buyorsell' class='m-1 btn-xs btn-outline-info ' type="submit" value="Search">
       </form>
     </div>
 
@@ -50,22 +50,19 @@
 </div>
 <!--serach bar ends-->
 
-
-
 <!--post details starts-->
-
-   
-       
+    
 <div class='container-fluid'>
   <div class='row'>
     {% for post in posts %}
     <div class='col-lg-3 col-sm-12'>
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+      <div class="card mt-2"   onclick="location.href='{% url 'post-detail' post.id %}';">
+        <img class="card-img-top" src={{ post.image1.url }} alt={{post.image}}>
+          <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{post.content}}</p>
+          <p class="card-text">{{post.district}}</p>
+          <p class="card-text">{{post.price}}</p>
         </div>
       </div>
     </div>
@@ -75,12 +72,7 @@
 
 </div>
 
-
-    
-
 <!--post details ends-->
-
-
 
     {% if is_paginated %}
 
