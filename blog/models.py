@@ -9,6 +9,22 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Post(models.Model):
+    FRESHMAN = 'FR'
+    SOPHOMORE = 'SO'
+    JUNIOR = 'JR'
+    SENIOR = 'SR'
+    GRADUATE = 'GR'
+    YEAR_IN_SCHOOL_CHOICES = [
+        (FRESHMAN, 'Freshman'),
+        (SOPHOMORE, 'Sophomore'),
+        (JUNIOR, 'Junior'),
+        (SENIOR, 'Senior'),
+        (GRADUATE, 'Graduate'),
+    ]
+
+    district=models.CharField(max_length=2,
+        choices=YEAR_IN_SCHOOL_CHOICES)
+
     title = models.CharField(max_length=300)
     mobile= models.IntegerField(
         validators=[
@@ -28,7 +44,6 @@ class Post(models.Model):
             MaxValueValidator(999999),
             MinValueValidator(100000)
         ])
-    district=models.CharField(max_length=225,null=True,blank=True)
     state=models.CharField(max_length=225,null=True,blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
